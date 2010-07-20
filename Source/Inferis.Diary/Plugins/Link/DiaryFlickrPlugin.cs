@@ -1,12 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Text.RegularExpressions;
-using System.Xml;
 using System.Xml.Linq;
-using Inferis.Diary.Plugins;
 using Inferis.Flickr;
 
-namespace Inferis.Diary
+namespace Inferis.Diary.Plugins.Link
 {
     public class DiaryFlickrPlugin : IDiaryLinkPlugin
     {

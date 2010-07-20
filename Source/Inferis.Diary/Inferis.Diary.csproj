@@ -49,6 +49,8 @@
     <Compile Include="IDiaryPluginMetadata.cs" />
     <Compile Include="Plugins\Link\DiaryFlickrPlugin.cs" />
     <Compile Include="MatchCache.cs" />
+    <Compile Include="Plugins\Link\PlainLinkPlugin.cs" />
+    <Compile Include="Plugins\Link\RegexBasedLinkPluginBase.cs" />
     <Compile Include="Plugins\Paragraph\BlockQuoteParagraphPlugin.cs" />
     <Compile Include="Plugins\Paragraph\ItalicsAndBoldPlugin.cs" />
     <Compile Include="Plugins\Paragraph\ParagraphizerPlugin.cs" />

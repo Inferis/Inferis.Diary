@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Inferis.Diary.Plugins;
+using Inferis.Diary.Plugins.Link;
 using Inferis.Diary.Plugins.Paragraph;
 
 namespace Inferis.Diary {
@@ -13,6 +14,7 @@ namespace Inferis.Diary {
         {
             Plugins = new List<IDiaryPlugin>() {
                 new DiaryFlickrPlugin("9026b82eee7dcfc69247bf18f2830fe3"),
+                new PlainLinkPlugin(),
                 new ItalicsAndBoldPlugin(),
                 new BlockQuoteParagraphPlugin(),
                 new ParagraphizerPlugin(),
