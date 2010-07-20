@@ -40,15 +40,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Plugins\IDiaryLinkPlugin.cs" />
+    <Compile Include="Plugins\IDiaryLinePlugin.cs" />
     <Compile Include="Plugins\IDiaryParagraphPlugin.cs" />
     <Compile Include="DiaryConverter.cs" />
-    <Compile Include="DiaryFlickrPlugin.cs" />
     <Compile Include="DiaryPluginMetadata.cs" />
     <Compile Include="IDiaryPlugin.cs" />
     <Compile Include="IDiaryPluginMetadata.cs" />
+    <Compile Include="Plugins\Link\DiaryFlickrPlugin.cs" />
+    <Compile Include="MatchCache.cs" />
     <Compile Include="Plugins\Paragraph\BlockQuoteParagraphPlugin.cs" />
+    <Compile Include="Plugins\Paragraph\ItalicsAndBoldPlugin.cs" />
     <Compile Include="Plugins\Paragraph\ParagraphizerPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringExtensions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Plugins\Line\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Inferis.Flickr\Source\Inferis.Flickr\Inferis.Flickr.csproj">
+      <Project>{E83A8535-4A47-4D7A-A798-A1C1910011AE}</Project>
+      <Name>Inferis.Flickr</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

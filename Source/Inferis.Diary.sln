@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inferis.Diary", "Inferis.Diary.csproj", "{98D6E0DE-E4BA-45B3-A230-1EC5DBC4AECB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inferis.Diary", "Inferis.Diary\Inferis.Diary.csproj", "{98D6E0DE-E4BA-45B3-A230-1EC5DBC4AECB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inferis.Diary.Tests", "Inferis.Diary.Tests\Inferis.Diary.Tests.csproj", "{6DE96740-63E2-4197-969A-1961728955F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inferis.Flickr", "..\..\Inferis.Flickr\Source\Inferis.Flickr\Inferis.Flickr.csproj", "{E83A8535-4A47-4D7A-A798-A1C1910011AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +17,14 @@ Global
 		{98D6E0DE-E4BA-45B3-A230-1EC5DBC4AECB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98D6E0DE-E4BA-45B3-A230-1EC5DBC4AECB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98D6E0DE-E4BA-45B3-A230-1EC5DBC4AECB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DE96740-63E2-4197-969A-1961728955F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DE96740-63E2-4197-969A-1961728955F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DE96740-63E2-4197-969A-1961728955F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DE96740-63E2-4197-969A-1961728955F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E83A8535-4A47-4D7A-A798-A1C1910011AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E83A8535-4A47-4D7A-A798-A1C1910011AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E83A8535-4A47-4D7A-A798-A1C1910011AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E83A8535-4A47-4D7A-A798-A1C1910011AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

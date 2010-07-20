@@ -1,4 +1,4 @@
-﻿namespace Inferis.Kimalas.Data.Diary
+﻿namespace Inferis.Diary
 {
     public interface IDiaryPlugin
     {

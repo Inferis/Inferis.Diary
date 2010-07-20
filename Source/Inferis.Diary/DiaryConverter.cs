@@ -6,13 +6,17 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Inferis.Diary.Plugins;
 using Inferis.Diary.Plugins.Paragraph;
-using Inferis.Kimalas.Data.Diary;
 
 namespace Inferis.Diary {
     public class DiaryConverter {
         public DiaryConverter()
         {
-            Plugins = new List<IDiaryPlugin>();
+            Plugins = new List<IDiaryPlugin>() {
+                new DiaryFlickrPlugin("9026b82eee7dcfc69247bf18f2830fe3"),
+                new ItalicsAndBoldPlugin(),
+                new BlockQuoteParagraphPlugin(),
+                new ParagraphizerPlugin(),
+            };
         }
 
         public IList<IDiaryPlugin> Plugins { get; private set; }
@@ -22,63 +26,91 @@ namespace Inferis.Diary {
             if (string.IsNullOrWhiteSpace(diary))
                 return diary;
 
-            return diary.Split(new[] { "\r\n\r\n" }, StringSplitOptions.RemoveEmptyEntries)
+            return string.Join("\r\n", diary.Split(new[] { "\r\n\r\n" }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(ParagraphHandler)
-                .Union(new[] { "" })
-                .JoinWithBuilder("\r\n");
+                .Union(new[] { "" }));
         }
 
         private string ParagraphHandler(string paragraph)
         {
             var pbuilder = new StringBuilder();
-            var lines = paragraph.Split(new[] { "\r\n" }, StringSplitOptions.None);
 
-            var plugins = new Stack<IDiaryParagraphPlugin>(new IDiaryParagraphPlugin[] {
-                new BlockQuoteParagraphPlugin(),
-                new ParagraphizerPlugin(),
-            });
+            var paragraphPlugins = new Stack<IDiaryParagraphPlugin>(Plugins.OfType<IDiaryParagraphPlugin>());
+            var linePlugins = new Stack<IDiaryLinePlugin>(Plugins.OfType<IDiaryLinePlugin>());
+            var linkPlugins = new Stack<IDiaryLinkPlugin>(Plugins.OfType<IDiaryLinkPlugin>());
 
-            Action<IList<string>> prevYield = l => l.JoinWithBuilder("\r\n", pbuilder);
-            while (plugins.Count > 0) {
-                var plugin = plugins.Pop();
+            Action<IList<string>> prevYield = lines => {
+                // do line plugins
+                while (linePlugins.Count > 0) {
+                    var plugin = linePlugins.Pop();
+                    lines = lines.SelectMany(plugin.Handle).ToArray();
+                }
+
+                var linkRegex = new Regex(@"\[([^\]]+)\]");
+                var result = lines.Select(l => {
+                    foreach (Match link in linkRegex.Matches(l)) {
+                        var content = link.Groups[1].Value;
+                        var plugin = linkPlugins.FirstOrDefault(lp => lp.CanHandle(content));
+                        if (plugin == null) continue;
+                        return link.Result(plugin.Handle(content));
+                    }
+                    return l;
+                });
+
+                // join final result into one string
+                pbuilder.Append(string.Join("\r\n", result));
+            };
+            while (paragraphPlugins.Count > 0) {
+                var plugin = paragraphPlugins.Pop();
                 var wrappedYield = prevYield;
                 prevYield = l => plugin.Handle(l, pbuilder, wrappedYield);
             }
 
-            prevYield(lines);
-
+            prevYield(paragraph.Split(new[] { "\r\n" }, StringSplitOptions.None));
             return pbuilder.ToString();
         }
-
-        private class ConcatPlugin : IDiaryParagraphPlugin {
-            public void Handle(IList<string> sourceLines, StringBuilder sink, Action<IList<string>> yield)
-            {
-                sourceLines.JoinWithBuilder(" ", sink);
-                Debug.Assert(yield == null, "yield should be null for ConcatPlugin.");
-            }
-        }
     }
 
-    public static class BLinqExtensions {
-        public static string JoinWithBuilder(this IEnumerable<string> strings, string seperator)
-        {
-            return strings.JoinWithBuilder(seperator, new StringBuilder()).ToString();
-        }
+    //public static class BLinqExtensions {
+    //    public static string JoinWithBuilder(this IEnumerable<string> strings, string seperator)
+    //    {
+    //        return strings.JoinWithBuilder(seperator, new StringBuilder()).ToString();
+    //    }
 
-        public static StringBuilder JoinWithBuilder(this IEnumerable<string> strings, string seperator, StringBuilder builder)
-        {
-            string marker = Guid.NewGuid().ToString();
-            strings.Union(new[] { marker })
-                .Aggregate((a, b) => {
-                    if (a != null) builder.Append(a);
-                    if (b != marker) {
-                        builder.Append(seperator);
-                        builder.Append(b);
-                    }
-                    return null;
-                });
+    //    public static StringBuilder JoinWithBuilder(this IEnumerable<string> strings, string seperator, StringBuilder builder)
+    //    {
+    //        string marker = Guid.NewGuid().ToString();
+    //        strings.Union(new[] { marker })
+    //            .Aggregate((a, b) => {
+    //                if (a != null) builder.Append(a);
+    //                if (b != marker) {
+    //                    builder.Append(seperator);
+    //                    builder.Append(b);
+    //                }
+    //                return null;
+    //            });
 
-            return builder;
-        }
-    }
+    //        return builder;
+    //    }
+
+    //    public static string JoinWithBuilder2(this IEnumerable<string> strings, string seperator)
+    //    {
+    //        return strings.JoinWithBuilder2(seperator, new StringBuilder()).ToString();
+    //    }
+
+    //    public static StringBuilder JoinWithBuilder2(this IEnumerable<string> strings, string seperator, StringBuilder builder)
+    //    {
+    //        var enumerator = strings.GetEnumerator();
+    //        if (!enumerator.MoveNext())
+    //            return builder;
+
+    //        builder.Append(enumerator.Current);
+    //        while (enumerator.MoveNext()) {
+    //            builder.Append(seperator);
+    //            builder.Append(enumerator.Current);
+    //        }
+
+    //        return builder;
+    //    }
+    //}
 }
