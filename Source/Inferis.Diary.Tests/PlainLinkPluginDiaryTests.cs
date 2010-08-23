@@ -6,6 +6,14 @@ namespace Inferis.Diary.Tests
     public class PlainLinkPluginDiaryTests
     {
         [Test]
+        public void WithoutTrailingBracket_DoesNotConvertToAHref()
+        {
+            var converter = new DiaryConverter();
+            var html = converter.ToHtml("Hierzo: [http://www.inferis.org/blog/dag-fien.html, en nog!");
+            Assert.AreEqual("<p>Hierzo: [http://www.inferis.org/blog/dag-fien.html, en nog!</p>\r\n\r\n", html);
+        }
+
+        [Test]
         public void PlainHttpLink()
         {
             var converter = new DiaryConverter();
