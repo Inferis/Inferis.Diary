@@ -49,15 +49,11 @@ namespace Inferis.Diary {
                 }
 
                 var linkRegex = new Regex(@"\[([^\]]+)\]");
-                var result = lines.Select(l => {
-                    foreach (Match link in linkRegex.Matches(l)) {
-                        var content = link.Groups[1].Value;
-                        var plugin = linkPlugins.FirstOrDefault(lp => lp.CanHandle(content));
-                        if (plugin == null) continue;
-                        return link.Result(plugin.Handle(content));
-                    }
-                    return l;
-                });
+                var result = lines.Select(l => linkRegex.Replace(l, me => {
+                    var content = me.Groups[1].Value;
+                    var plugin = linkPlugins.FirstOrDefault(lp => lp.CanHandle(content));
+                    return plugin == null ? content : me.Result(plugin.Handle(content));
+                }));
 
                 // join final result into one string
                 pbuilder.Append(string.Join("\r\n", result));
