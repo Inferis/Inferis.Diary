@@ -10,7 +10,7 @@ namespace Inferis.Diary.Plugins.Link {
 
         static PlainLinkPlugin()
         {
-            regex = new Regex(@"^(?:([^\|]+?)\|)?((?:f|ht)tp://[^/]+/?.+?)$");
+            regex = new Regex(@"^(?:([^\|]+?)\|)?((?:(?:f|ht)tp://|mailto:)[^/]+/?.+?)$");
         }
 
         public PlainLinkPlugin()
@@ -23,7 +23,7 @@ namespace Inferis.Diary.Plugins.Link {
             var url = match.Groups[2].Value;
             var text = match.Groups[1].Value;
             if (string.IsNullOrWhiteSpace(text)) text = url;
-            return string.Format("<a href=\"{0}\">{1}</a>", url, text);
+            return string.Format("<a href=\"{0}\">{1}</a>", url, Regex.Replace(text, "^mailto:", ""));
         }
     }
 }
