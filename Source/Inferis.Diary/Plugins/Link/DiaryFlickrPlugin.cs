@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Configuration;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Inferis.Flickr;
@@ -14,6 +16,13 @@ namespace Inferis.Diary.Plugins.Link
         static DiaryFlickrPlugin()
         {
             regex = new Regex(@"^(?:http\:\/\/)?(?:www\.)?flickr\.com/photos/([^/]+)/([0-9]+).*?(?:\|([^\|]+?))*$", RegexOptions.IgnoreCase);
+        }
+
+        public DiaryFlickrPlugin()
+        {
+            this.apiKey = ConfigurationManager.AppSettings["DiaryFlickrPlugin.ApiKey"];
+            if (string.IsNullOrEmpty(apiKey))
+                throw new InvalidOperationException("No 'DiaryFlickrPlugin.ApiKey' appsetting found.");
         }
 
         public DiaryFlickrPlugin(string apiKey)
