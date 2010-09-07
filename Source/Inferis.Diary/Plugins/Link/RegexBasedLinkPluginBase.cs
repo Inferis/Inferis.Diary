@@ -20,8 +20,11 @@ namespace Inferis.Diary.Plugins.Link {
             this.regexes = regexes;
         }
 
-        public bool CanHandle(string source)
+        public bool CanHandle(string source, DiaryMode mode)
         {
+            if (!Supports(mode))
+                return false;
+
             foreach (var regex in regexes) {
                 var match = regex.Match(source);
                 cached = new MatchCache(source, match);
@@ -32,7 +35,7 @@ namespace Inferis.Diary.Plugins.Link {
             return true;
         }
 
-        public string Handle(string source)
+        public string Handle(string source, DiaryMode mode)
         {
             var fromCache = cached;
             Match match = null;
@@ -50,9 +53,10 @@ namespace Inferis.Diary.Plugins.Link {
             if (match == null)
                 return source;
 
-            return Handle(match);
+            return Handle(match, mode);
         }
 
-        protected abstract string Handle(Match match);
+        protected abstract string Handle(Match match, DiaryMode mode);
+        protected abstract bool Supports(DiaryMode mode);
     }
 }

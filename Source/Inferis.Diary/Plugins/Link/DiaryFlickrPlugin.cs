@@ -35,14 +35,14 @@ namespace Inferis.Diary.Plugins.Link
             return new DiaryPluginMetadata(new { UserId = apiKey });
         }
 
-        public bool CanHandle(string source)
+        public bool CanHandle(string source, DiaryMode mode)
         {
             var match = regex.Match(source);
             cached = new MatchCache(source, match);
             return match.Success;
         }
 
-        public string Handle(string source)
+        public string Handle(string source, DiaryMode mode)
         {
             var fromCache = cached;
             var match = (fromCache != null && fromCache.Source.Equals(source)) ? fromCache.Match : regex.Match(source);
@@ -62,12 +62,17 @@ namespace Inferis.Diary.Plugins.Link
                 var width = image.Attribute("width").Value;
                 var height = image.Attribute("height").Value;
 
-                result = string.Format("<img src=\"{0}\" width=\"{1}\" height=\"{2}\" />", jpg, width, height);
+                if (mode == DiaryMode.Html) {
+                    result = string.Format("<img src=\"{0}\" width=\"{1}\" height=\"{2}\" />", jpg, width, height);
 
-                XDocument info = FlickrApi.WithKey(apiKey).Photos.GetInfo(photoId: photoid);
+                    XDocument info = FlickrApi.WithKey(apiKey).Photos.GetInfo(photoId: photoid);
 
-                var url = info.Descendants("url").Where(p => p.Attribute("type").Value == "photopage").First().Value;
-                result = string.Format("<a href=\"{0}\">{1}</a>", url, result);
+                    var url = info.Descendants("url").Where(p => p.Attribute("type").Value == "photopage").First().Value;
+                    result = string.Format("<a href=\"{0}\">{1}</a>", url, result);
+                }
+                else {
+                    result = jpg;
+                }
             }
             catch { }
             return result;

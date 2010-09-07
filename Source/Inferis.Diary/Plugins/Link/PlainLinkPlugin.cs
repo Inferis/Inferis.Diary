@@ -18,12 +18,23 @@ namespace Inferis.Diary.Plugins.Link {
         {
         }
 
-        protected override string Handle(Match match)
+        protected override bool Supports(DiaryMode mode)
+        {
+            return true;
+        }
+
+        protected override string Handle(Match match, DiaryMode mode)
         {
             var url = match.Groups[2].Value;
             var text = match.Groups[1].Value;
-            if (string.IsNullOrWhiteSpace(text)) text = url;
-            return string.Format("<a href=\"{0}\">{1}</a>", url, Regex.Replace(text, "^mailto:", ""));
+            if (mode == DiaryMode.Html) {
+                if (string.IsNullOrWhiteSpace(text)) text = url;
+                return string.Format("<a href=\"{0}\">{1}</a>", url, Regex.Replace(text, "^mailto:", ""));
+            }
+
+            if (string.IsNullOrWhiteSpace(text))
+                return Regex.Replace(url, "^mailto:", "");
+            return string.Format("{1} ({0})", url, Regex.Replace(text, "^mailto:", ""));
         }
     }
 }

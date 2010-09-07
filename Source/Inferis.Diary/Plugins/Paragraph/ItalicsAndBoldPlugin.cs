@@ -13,12 +13,14 @@ namespace Inferis.Diary.Plugins.Paragraph {
             italics = new Regex(@"(\*|_)(?=\S)([^\r]*?\S)\1");
         }
 
-        public void Handle(IList<string> sourceLines, StringBuilder sink, Action<IList<string>> yield)
+        public void Handle(IList<string> sourceLines, DiaryMode mode, StringBuilder sink, Action<IList<string>> yield)
         {
             var marker = Guid.NewGuid().ToString("N");
             var result = string.Join(marker, sourceLines);
-            result = bold.Replace(result, "<strong>$2</strong>");
-            result = italics.Replace(result, "<em>$2</em>");
+            var boldReplacement = mode == DiaryMode.Html ? "<strong>$2</strong>" : "$2";
+            var italicsReplacement = mode == DiaryMode.Html ? "<strong>$2</strong>" : "$2";
+            result = bold.Replace(result, boldReplacement);
+            result = italics.Replace(result, italicsReplacement);
             yield(result.Split(new[] { marker }, StringSplitOptions.None));
         }
     }

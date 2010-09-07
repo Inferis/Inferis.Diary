@@ -25,15 +25,25 @@ namespace Inferis.Diary {
 
         public string ToHtml(string diary)
         {
+            return Convert(diary, DiaryMode.Html);
+        }
+
+        public string ToPlainText(string diary)
+        {
+            return Convert(diary, DiaryMode.PlainText);
+        }
+
+        private string Convert(string diary, DiaryMode mode)
+        {
             if (string.IsNullOrWhiteSpace(diary))
                 return diary;
 
             return string.Join("\r\n", diary.Split(new[] { "\r\n\r\n" }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(ParagraphHandler)
+                .Select(x => ParagraphHandler(x, mode))
                 .Union(new[] { "" }));
         }
 
-        private string ParagraphHandler(string paragraph)
+        private string ParagraphHandler(string paragraph, DiaryMode mode)
         {
             var pbuilder = new StringBuilder();
 
@@ -45,14 +55,14 @@ namespace Inferis.Diary {
                 // do line plugins
                 while (linePlugins.Count > 0) {
                     var plugin = linePlugins.Pop();
-                    lines = lines.SelectMany(plugin.Handle).ToArray();
+                    lines = lines.SelectMany(x => plugin.Handle(x, mode)).ToArray();
                 }
 
                 var linkRegex = new Regex(@"\[([^\]]+)\]");
                 var result = lines.Select(l => linkRegex.Replace(l, me => {
                     var content = me.Groups[1].Value;
-                    var plugin = linkPlugins.FirstOrDefault(lp => lp.CanHandle(content));
-                    return plugin == null ? content : me.Result(plugin.Handle(content));
+                    var plugin = linkPlugins.FirstOrDefault(lp => lp.CanHandle(content, mode));
+                    return plugin == null ? content : me.Result(plugin.Handle(content, mode));
                 }));
 
                 // join final result into one string
@@ -61,12 +71,18 @@ namespace Inferis.Diary {
             while (paragraphPlugins.Count > 0) {
                 var plugin = paragraphPlugins.Pop();
                 var wrappedYield = prevYield;
-                prevYield = l => plugin.Handle(l, pbuilder, wrappedYield);
+                prevYield = l => plugin.Handle(l, mode, pbuilder, wrappedYield);
             }
 
             prevYield(paragraph.Split(new[] { "\r\n" }, StringSplitOptions.None));
             return pbuilder.ToString();
         }
+    }
+
+    public enum DiaryMode
+    {
+        Html,
+        PlainText
     }
 
     //public static class BLinqExtensions {
