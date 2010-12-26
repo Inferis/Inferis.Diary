@@ -20,14 +20,6 @@ namespace Inferis.Diary.Plugins.Link
 
         public DiaryVimeoPlugin()
         {
-            this.apiKey = ConfigurationManager.AppSettings["DiaryFlickrPlugin.ApiKey"];
-            if (string.IsNullOrEmpty(apiKey))
-                throw new InvalidOperationException("No 'DiaryFlickrPlugin.ApiKey' appsetting found.");
-        }
-
-        public DiaryVimeoPlugin(string apiKey)
-        {
-            this.apiKey = apiKey;
         }
 
         public IDiaryPluginMetadata ProvideMetadata()

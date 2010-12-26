@@ -2,7 +2,7 @@
 
 namespace Inferis.Diary
 {
-    internal class MatchCache
+    public class MatchCache
     {
         public MatchCache(string source, Match match)
         {
