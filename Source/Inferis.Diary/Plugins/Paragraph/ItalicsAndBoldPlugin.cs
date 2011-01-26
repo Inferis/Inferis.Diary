@@ -18,7 +18,7 @@ namespace Inferis.Diary.Plugins.Paragraph {
             var marker = Guid.NewGuid().ToString("N");
             var result = string.Join(marker, sourceLines);
             var boldReplacement = mode == DiaryMode.Html ? "<strong>$2</strong>" : "$2";
-            var italicsReplacement = mode == DiaryMode.Html ? "<strong>$2</strong>" : "$2";
+            var italicsReplacement = mode == DiaryMode.Html ? "<em>$2</em>" : "$2";
             result = bold.Replace(result, boldReplacement);
             result = italics.Replace(result, italicsReplacement);
             yield(result.Split(new[] { marker }, StringSplitOptions.None));
