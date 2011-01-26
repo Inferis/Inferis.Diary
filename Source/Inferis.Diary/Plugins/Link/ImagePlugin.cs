@@ -7,7 +7,7 @@ namespace Inferis.Diary.Plugins.Link {
 
         static ImagePlugin()
         {
-            regex = new Regex(@"^(?:([^\|]+?)\|)?!(https?://[^/]+/?.+?\.(?:jpg|jpeg|png|gif|xbm)$", RegexOptions.IgnoreCase);
+            regex = new Regex(@"^(?:([^\|]+?)\|)?!(https?://[^/]+/?.+?\.(?:jpg|jpeg|png|gif|xbm))$", RegexOptions.IgnoreCase);
         }
 
         public ImagePlugin()
