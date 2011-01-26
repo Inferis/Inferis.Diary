@@ -34,6 +34,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,11 +49,11 @@
     <Compile Include="DiaryPluginMetadata.cs" />
     <Compile Include="IDiaryPlugin.cs" />
     <Compile Include="IDiaryPluginMetadata.cs" />
-    <Compile Include="Plugins\Link\DiarySoundcloudPlugin.cs" />
     <Compile Include="Plugins\Link\DiaryVimeoPlugin.cs" />
     <Compile Include="Plugins\Link\DiaryFlickrSlideshowPlugin.cs" />
     <Compile Include="Plugins\Link\DiaryFlickrPlugin.cs" />
     <Compile Include="MatchCache.cs" />
+    <Compile Include="Plugins\Link\ImagePlugin.cs" />
     <Compile Include="Plugins\Link\PlainLinkPlugin.cs" />
     <Compile Include="Plugins\Link\RegexBasedLinkPluginBase.cs" />
     <Compile Include="Plugins\Paragraph\BlockQuoteParagraphPlugin.cs" />

@@ -13,6 +13,7 @@ namespace Inferis.Diary {
         public DiaryConverter()
         {
             Plugins = new List<IDiaryPlugin>() {
+                new ImagePlugin(),
                 new PlainLinkPlugin(),
                 new ItalicsAndBoldPlugin(),
                 new BlockQuoteParagraphPlugin(),
