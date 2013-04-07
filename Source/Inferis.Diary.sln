@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inferis.Diary", "Inferis.Diary\Inferis.Diary.csproj", "{98D6E0DE-E4BA-45B3-A230-1EC5DBC4AECB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inferis.Diary.Tests", "Inferis.Diary.Tests\Inferis.Diary.Tests.csproj", "{6DE96740-63E2-4197-969A-1961728955F3}"
