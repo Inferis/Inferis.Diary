@@ -49,6 +49,7 @@
     <Compile Include="DiaryPluginMetadata.cs" />
     <Compile Include="IDiaryPlugin.cs" />
     <Compile Include="IDiaryPluginMetadata.cs" />
+    <Compile Include="Plugins\Link\DiaryYoutubePlugin.cs" />
     <Compile Include="Plugins\Link\DiaryVimeoPlugin.cs" />
     <Compile Include="Plugins\Link\DiaryFlickrSlideshowPlugin.cs" />
     <Compile Include="Plugins\Link\DiaryFlickrPlugin.cs" />
