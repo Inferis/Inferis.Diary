@@ -27,12 +27,13 @@ namespace Inferis.Diary.Plugins.Link {
 
             foreach (var regex in regexes) {
                 var match = regex.Match(source);
-                cached = new MatchCache(source, match);
-                if (match.Success)
+                if (match.Success) {
+                    cached = new MatchCache(source, match);
                     return true;
+                }
             }
 
-            return true;
+            return false;
         }
 
         public string Handle(string source, DiaryMode mode)

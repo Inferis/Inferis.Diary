@@ -7,7 +7,7 @@ namespace Inferis.Diary.Plugins.Link {
 
         static ImagePlugin()
         {
-            regex = new Regex(@"^(?:([^\|]+?)\|)?!(https?://[^/]+/?.+?\.(?:jpg|jpeg|png|gif|xbm))$", RegexOptions.IgnoreCase);
+            regex = new Regex(@"^(?:([^!]+))?!(https?:\/\/[^\/]+/?.+?\.(?:jpg|jpeg|png|gif|xbm))$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         }
 
         public ImagePlugin()
@@ -17,7 +17,7 @@ namespace Inferis.Diary.Plugins.Link {
 
         protected override bool Supports(DiaryMode mode)
         {
-            return true;
+            return mode == DiaryMode.Html;
         }
 
         protected override string Handle(Match match, DiaryMode mode)
@@ -25,7 +25,7 @@ namespace Inferis.Diary.Plugins.Link {
             var url = match.Groups[2].Value;
             var alt = match.Groups[1].Value;
             if (mode == DiaryMode.Html) {
-                return string.Format("<img src=\"{0}\" alt=\"{1}\">", url, HttpUtility.HtmlEncode(alt));
+                return string.Format("<img src=\"{0}\" alt=\"{1}\" style='max-width: 600px'>", url, HttpUtility.HtmlEncode(alt));
             }
 
             return string.IsNullOrEmpty(alt) 

@@ -10,7 +10,7 @@ namespace Inferis.Diary.Plugins.Link {
 
         static PlainLinkPlugin()
         {
-            regex = new Regex(@"^(?:([^\|]+?)\|)?((?:(?:f|ht)tp://|mailto:)[^/]+/?.+?)$");
+            regex = new Regex(@"^(?:([^\|]+?)\|)?((?:ftp:\/\/|https?:\/\/|mailto:).+?)$");
         }
 
         public PlainLinkPlugin()
